@@ -1,0 +1,840 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MoMent — Market</title>
+  <meta name="description" content="Buy & sell pre-loved baby and mom essentials — keep good things in the circle." />
+  <link rel="icon" href="/favicon.ico" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .no-scrollbar::-webkit-scrollbar { display:none; }
+    .no-scrollbar { -ms-overflow-style:none; scrollbar-width:none; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+  <!-- =================== Desktop Topbar =================== -->
+  <header class="hidden md:block sticky top-0 z-40 bg-white/80 backdrop-blur border-b">
+    <div class="max-w-7xl mx-auto px-6 py-3 flex items-center gap-4">
+      <a href="index.html" class="flex items-center gap-2">
+        <img src="logo.png" class="w-9 h-9 rounded-full object-cover" alt="MoMent Logo">
+        <span class="font-semibold">MoMent</span>
+      </a>
+      <nav class="hidden md:flex items-center gap-1 text-sm">
+        <a href="index.html" class="px-3 py-2 rounded-xl hover:bg-slate-100 text-slate-700 flex items-center gap-2"><svg class="w-5 h-5"><use href="#home"></use></svg>Home</a>
+        <a href="community.html" class="px-3 py-2 rounded-xl hover:bg-slate-100 text-slate-700 flex items-center gap-2"><svg class="w-5 h-5"><use href="#community"></use></svg>Community</a>
+        <a href="ai.html" class="px-3 py-2 rounded-xl hover:bg-slate-100 text-slate-700 flex items-center gap-2"><svg class="w-5 h-5"><use href="#spark"></use></svg>Ask AI</a>
+        <a href="market.html" aria-current="page" class="px-3 py-2 rounded-xl bg-slate-100 text-violet-700 font-semibold flex items-center gap-2"><svg class="w-5 h-5"><use href="#bag"></use></svg>Market</a>
+        <a href="profile.html" class="px-3 py-2 rounded-xl hover:bg-slate-100 text-slate-700 flex items-center gap-2"><svg class="w-5 h-5"><use href="#user"></use></svg>Profile</a>
+      </nav>
+      <div class="ml-auto flex items-center gap-3">
+        <label class="hidden md:flex items-center bg-slate-100 rounded-xl px-3 py-2 text-sm w-80" aria-label="Global search">
+          <svg class="w-4 h-4 mr-2" aria-hidden="true"><use href="#search"></use></svg>
+          <input placeholder="Search appointments, vaccines, posts, items…" class="bg-transparent outline-none flex-1" />
+        </label>
+        <button class="relative" aria-label="Notifications">
+          <svg class="w-6 h-6 text-slate-700" aria-hidden="true"><use href="#bell"></use></svg>
+          <span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full" aria-hidden="true"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- =================== Mobile Header =================== -->
+  <header class="md:hidden sticky top-0 z-40 bg-white/80 backdrop-blur border-b">
+    <div class="max-w-md mx-auto px-4 py-3 flex items-center gap-3">
+      <a href="menu.html" class="p-2 -ml-2" aria-label="Open menu"><svg class="w-6 h-6"><use href="#menu"></use></svg></a>
+      <div class="flex-1">
+        <p class="text-xs text-slate-500">Welcome back</p>
+        <h1 class="text-base font-semibold">Mom May & Baby Pete</h1>
+      </div>
+      <button class="relative" aria-label="Notifications"><svg class="w-6 h-6"><use href="#bell"></use></svg><span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full"></span></button>
+    </div>
+  </header>
+
+  <!-- =================== Page Title & Actions =================== -->
+  <section class="max-w-7xl mx-auto px-6 py-5">
+    <div class="flex flex-col sm:flex-row sm:items-end gap-3 justify-between">
+      <div>
+        <h1 class="text-2xl sm:text-3xl font-semibold tracking-tight">Market</h1>
+        <p class="text-slate-600 mt-1">Buy & sell pre-loved baby and mom essentials — keep good things in the circle ♻️</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <button id="openFiltersBtn" class="md:hidden rounded-xl border border-slate-300 px-3 py-2 text-sm">Filters</button>
+        <button id="openPostModalBtnTop" class="rounded-xl bg-violet-600 text-white px-4 py-2 text-sm font-medium hover:bg-violet-700">Post an Item</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- =================== Main =================== -->
+  <main class="max-w-7xl mx-auto px-6 pb-20 md:pb-12">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <!-- Sidebar Filters (desktop) -->
+      <aside class="hidden lg:block lg:col-span-3">
+        <div class="bg-white rounded-2xl p-4 shadow-sm sticky top-[76px]">
+          <h2 class="text-base font-semibold mb-3">Filters</h2>
+
+          <label class="block text-sm font-medium mb-1">Search</label>
+          <div class="relative mb-4">
+            <input id="searchInput" type="search" placeholder="Stroller, bottle, crib..." class="w-full rounded-xl border-slate-300 focus:ring-2 focus:ring-slate-300">
+            <div class="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400">
+              <svg class="w-5 h-5"><use href="#search"></use></svg>
+            </div>
+          </div>
+
+          <label class="block text-sm font-medium mb-1">Category</label>
+          <div id="categoryPills" class="flex flex-wrap gap-2 mb-4"></div>
+
+          <label class="block text-sm font-medium mb-1">Condition</label>
+          <div class="space-y-2 mb-4 text-sm">
+            <label class="flex items-center gap-2"><input type="checkbox" class="conditionChk" value="New"> New</label>
+            <label class="flex items-center gap-2"><input type="checkbox" class="conditionChk" value="Like New"> Like New</label>
+            <label class="flex items-center gap-2"><input type="checkbox" class="conditionChk" value="Good"> Good</label>
+            <label class="flex items-center gap-2"><input type="checkbox" class="conditionChk" value="Fair"> Fair</label>
+          </div>
+
+          <label class="block text-sm font-medium mb-1">Price (THB)</label>
+          <div class="flex items-center gap-2 mb-4">
+            <input id="priceMin" type="number" inputmode="numeric" placeholder="Min" class="w-1/2 rounded-xl border-slate-300">
+            <input id="priceMax" type="number" inputmode="numeric" placeholder="Max" class="w-1/2 rounded-xl border-slate-300">
+          </div>
+
+          <label class="block text-sm font-medium mb-1">Sort by</label>
+          <select id="sortSelect" class="w-full rounded-xl border-slate-300 mb-4">
+            <option value="newest">Newest</option>
+            <option value="price_low">Price: Low → High</option>
+            <option value="price_high">Price: High → Low</option>
+          </select>
+
+          <button id="applyFiltersBtn" class="w-full rounded-xl bg-violet-600 text-white py-2 text-sm font-medium">Apply</button>
+          <button id="clearFiltersBtn" class="w-full mt-2 rounded-xl border border-slate-300 py-2 text-sm">Clear</button>
+        </div>
+      </aside>
+
+      <!-- Results -->
+      <section class="lg:col-span-9">
+        <!-- Top controls -->
+        <div class="bg-white rounded-2xl p-3 shadow-sm mb-4 flex flex-col sm:flex-row sm:items-center gap-3">
+          <div class="flex-1 flex items-center gap-2">
+            <input id="searchInputTop" type="search" placeholder="Search items..." class="w-full rounded-xl border-slate-300 focus:ring-2 focus:ring-slate-300">
+          </div>
+          <div class="flex items-center gap-2">
+            <select id="sortSelectTop" class="rounded-xl border-slate-300">
+              <option value="newest">Newest</option>
+              <option value="price_low">Price: Low → High</option>
+              <option value="price_high">Price: High → Low</option>
+            </select>
+            <button id="openFiltersBtn2" class="lg:hidden rounded-xl border border-slate-300 px-3 py-2 text-sm">Filters</button>
+          </div>
+        </div>
+
+        <!-- Category scroller -->
+        <div id="categoryScroller" class="mb-4 flex gap-2 overflow-x-auto no-scrollbar"></div>
+
+        <!-- ===== Items grid (STATIC CARDS, images fixed in body) ===== -->
+        <div id="itemsGrid" class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
+
+          <!-- Card 1 -->
+          <article class="market-card bg-white rounded-2xl border overflow-hidden shadow-sm cursor-pointer group"
+            data-id="c1"
+            data-title="Foldable Stroller"
+            data-category="Strollers"
+            data-condition="Like New"
+            data-price="2500"
+            data-location="Bangkok"
+            data-createdat="1730922000000"
+            data-desc="Lightweight stroller, folds with one hand. From smoke-free, pet-free home."
+            data-images="https://media.hunyhuny.com/9530-large_default/hunyhuny-z-fold-premium-travel-stroller-grey.jpg">
+            <div class="aspect-[4/3] bg-slate-100">
+              <img src="https://media.hunyhuny.com/9530-large_default/hunyhuny-z-fold-premium-travel-stroller-grey.jpg" alt="Foldable Stroller" class="w-full h-full object-cover group-hover:opacity-95 transition">
+            </div>
+            <div class="p-3">
+              <div class="flex items-start justify-between gap-2">
+                <h3 class="font-semibold leading-snug line-clamp-2">Foldable Stroller</h3>
+                <span class="text-xs px-2 py-1 rounded-full bg-slate-100">Like New</span>
+              </div>
+              <p class="mt-1 text-slate-600 text-sm line-clamp-2">Lightweight stroller, folds with one hand. From smoke-free, pet-free home.</p>
+              <div class="mt-2 flex items-center justify-between">
+                <span class="font-semibold">฿2,500</span>
+                <span class="text-xs text-slate-500">just now</span>
+              </div>
+              <div class="mt-1 text-xs text-slate-500">📍 Bangkok</div>
+            </div>
+          </article>
+
+          <!-- Card 2 -->
+          <article class="market-card bg-white rounded-2xl border overflow-hidden shadow-sm cursor-pointer group"
+            data-id="c2"
+            data-title="Bottle Sterilizer"
+            data-category="Feeding"
+            data-condition="Good"
+            data-price="700"
+            data-location="Nonthaburi"
+            data-createdat="1730835600000"
+            data-desc="Electric sterilizer, fits 6 bottles. Works perfectly."
+            data-images="https://www.einmilk.com/wp-content/uploads/2020/11/%E6%9A%96%E5%A5%B6%E6%B6%88%E6%AF%92%E5%99%A8%E4%B8%89%E5%90%88%E4%B8%80%E5%8D%87%E7%BA%A7%E7%89%88%E6%AD%A3%E9%9D%A2-.jpg">
+            <div class="aspect-[4/3] bg-slate-100">
+              <img src="https://www.einmilk.com/wp-content/uploads/2020/11/%E6%9A%96%E5%A5%B6%E6%B6%88%E6%AF%92%E5%99%A8%E4%B8%89%E5%90%88%E4%B8%80%E5%8D%87%E7%BA%A7%E7%89%88%E6%AD%A3%E9%9D%A2-.jpg" alt="Bottle Sterilizer" class="w-full h-full object-cover group-hover:opacity-95 transition">
+            </div>
+            <div class="p-3">
+              <div class="flex items-start justify-between gap-2">
+                <h3 class="font-semibold leading-snug line-clamp-2">Bottle Sterilizer</h3>
+                <span class="text-xs px-2 py-1 rounded-full bg-slate-100">Good</span>
+              </div>
+              <p class="mt-1 text-slate-600 text-sm line-clamp-2">Electric sterilizer, fits 6 bottles. Works perfectly.</p>
+              <div class="mt-2 flex items-center justify-between">
+                <span class="font-semibold">฿700</span>
+                <span class="text-xs text-slate-500">1d ago</span>
+              </div>
+              <div class="mt-1 text-xs text-slate-500">📍 Nonthaburi</div>
+            </div>
+          </article>
+
+          <!-- Card 3 -->
+          <article class="market-card bg-white rounded-2xl border overflow-hidden shadow-sm cursor-pointer group"
+            data-id="c3"
+            data-title="Infant Car Seat"
+            data-category="Car Seats"
+            data-condition="Good"
+            data-price="1800"
+            data-location="Pathum Thani"
+            data-createdat="1730662800000"
+            data-desc="Used ~6 months, never in accident. Includes newborn insert."
+            data-images="https://maxicosi.com/cdn/shop/files/01-22366CDBK_Bty_L_2_8cf407b1-1919-495c-ad46-d08d5bd07b4c.jpg?v=1743783623">
+            <div class="aspect-[4/3] bg-slate-100">
+              <img src="https://maxicosi.com/cdn/shop/files/01-22366CDBK_Bty_L_2_8cf407b1-1919-495c-ad46-d08d5bd07b4c.jpg?v=1743783623" alt="Infant Car Seat" class="w-full h-full object-cover group-hover:opacity-95 transition">
+            </div>
+            <div class="p-3">
+              <div class="flex items-start justify-between gap-2">
+                <h3 class="font-semibold leading-snug line-clamp-2">Infant Car Seat</h3>
+                <span class="text-xs px-2 py-1 rounded-full bg-slate-100">Good</span>
+              </div>
+              <p class="mt-1 text-slate-600 text-sm line-clamp-2">Used ~6 months, never in accident. Includes newborn insert.</p>
+              <div class="mt-2 flex items-center justify-between">
+                <span class="font-semibold">฿1,800</span>
+                <span class="text-xs text-slate-500">3d ago</span>
+              </div>
+              <div class="mt-1 text-xs text-slate-500">📍 Pathum Thani</div>
+            </div>
+          </article>
+
+          <!-- Card 4 -->
+          <article class="market-card bg-white rounded-2xl border overflow-hidden shadow-sm cursor-pointer group"
+            data-id="c4"
+            data-title="Baby Monitor"
+            data-category="Nursery"
+            data-condition="Like New"
+            data-price="1500"
+            data-location="Bangkok"
+            data-createdat="1730950800000"
+            data-desc="Night vision, long-range. Great battery."
+            data-images="https://m.media-amazon.com/images/I/717EvXlUrxL._SX679_.jpg">
+            <div class="aspect-[4/3] bg-slate-100">
+              <img src="https://m.media-amazon.com/images/I/717EvXlUrxL._SX679_.jpg" alt="Baby Monitor" class="w-full h-full object-cover group-hover:opacity-95 transition">
+            </div>
+            <div class="p-3">
+              <div class="flex items-start justify-between gap-2">
+                <h3 class="font-semibold leading-snug line-clamp-2">Baby Monitor</h3>
+                <span class="text-xs px-2 py-1 rounded-full bg-slate-100">Like New</span>
+              </div>
+              <p class="mt-1 text-slate-600 text-sm line-clamp-2">Night vision, long-range. Great battery.</p>
+              <div class="mt-2 flex items-center justify-between">
+                <span class="font-semibold">฿1,500</span>
+                <span class="text-xs text-slate-500">just now</span>
+              </div>
+              <div class="mt-1 text-xs text-slate-500">📍 Bangkok</div>
+            </div>
+          </article>
+
+          <!-- เพิ่มการ์ดอื่นๆ ตามต้องการด้วยรูปที่ติดใน body แบบนี้ได้เลย -->
+
+        </div>
+
+        <!-- Pagination -->
+        <div class="mt-6 flex items-center justify-center gap-2">
+          <button id="prevPageBtn" class="px-3 py-2 text-sm rounded-xl border border-slate-300 disabled:opacity-40">Prev</button>
+          <span id="pageIndicator" class="text-sm text-slate-600">Page 1</span>
+          <button id="nextPageBtn" class="px-3 py-2 text-sm rounded-xl border border-slate-300 disabled:opacity-40">Next</button>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- =================== Bottom Nav (Mobile) =================== -->
+  <nav class="md:hidden sticky bottom-0 bg-white border-t" aria-label="Primary">
+    <div class="max-w-md mx-auto px-2 py-2 grid grid-cols-5 text-xs">
+      <a href="index.html" class="flex flex-col items-center gap-1 text-slate-500"><svg class="w-6 h-6"><use href="#home"></use></svg>Home</a>
+      <a href="community.html" class="flex flex-col items-center gap-1 text-slate-500"><svg class="w-6 h-6"><use href="#community"></use></svg>Community</a>
+      <a href="ai.html" class="flex flex-col items-center -mt-6" aria-label="Ask AI">
+        <span class="w-14 h-14 rounded-full bg-violet-600 text-white grid place-items-center shadow-lg">
+          <svg class="w-7 h-7"><use href="#spark"></use></svg>
+        </span>
+        <span class="mt-1 text-slate-500">Ask AI</span>
+      </a>
+      <a href="market.html" class="flex flex-col items-center gap-1 text-violet-700 font-medium" aria-current="page"><svg class="w-6 h-6"><use href="#bag"></use></svg>Market</a>
+      <a href="profile.html" class="flex flex-col items-center gap-1 text-slate-500"><svg class="w-6 h-6"><use href="#user"></use></svg>Profile</a>
+    </div>
+  </nav>
+
+  <!-- =================== Filters Drawer (mobile) =================== -->
+  <div id="filtersDrawer" class="fixed inset-0 z-50 hidden">
+    <div class="absolute inset-0 bg-black/30" data-close-drawer></div>
+    <div class="absolute right-0 top-0 h-full w-full max-w-md bg-white shadow-xl p-4 overflow-y-auto">
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="text-base font-semibold">Filters</h3>
+        <button class="p-2 rounded-lg border border-slate-200" data-close-drawer aria-label="Close filters">✕</button>
+      </div>
+
+      <label class="block text-sm font-medium mb-1">Search</label>
+      <input id="m_searchInput" type="search" class="w-full rounded-xl border-slate-300 mb-4" placeholder="Search items...">
+
+      <label class="block text-sm font-medium mb-1">Category</label>
+      <div id="m_categoryPills" class="flex flex-wrap gap-2 mb-4"></div>
+
+      <label class="block text-sm font-medium mb-1">Condition</label>
+      <div class="grid grid-cols-2 gap-2 mb-4 text-sm">
+        <label class="flex items-center gap-2"><input type="checkbox" class="m_conditionChk" value="New"> New</label>
+        <label class="flex items-center gap-2"><input type="checkbox" class="m_conditionChk" value="Like New"> Like New</label>
+        <label class="flex items-center gap-2"><input type="checkbox" class="m_conditionChk" value="Good"> Good</label>
+        <label class="flex items-center gap-2"><input type="checkbox" class="m_conditionChk" value="Fair"> Fair</label>
+      </div>
+
+      <label class="block text-sm font-medium mb-1">Price (THB)</label>
+      <div class="flex items-center gap-2 mb-6">
+        <input id="m_priceMin" type="number" inputmode="numeric" placeholder="Min" class="w-1/2 rounded-xl border-slate-300">
+        <input id="m_priceMax" type="number" inputmode="numeric" placeholder="Max" class="w-1/2 rounded-xl border-slate-300">
+      </div>
+
+      <label class="block text-sm font-medium mb-1">Sort by</label>
+      <select id="m_sortSelect" class="w-full rounded-xl border-slate-300 mb-6">
+        <option value="newest">Newest</option>
+        <option value="price_low">Price: Low → High</option>
+        <option value="price_high">Price: High → Low</option>
+      </select>
+
+      <div class="flex gap-2">
+        <button id="m_applyFiltersBtn" class="flex-1 rounded-xl bg-violet-600 text-white py-2 text-sm font-medium">Apply</button>
+        <button id="m_clearFiltersBtn" class="flex-1 rounded-xl border border-slate-300 py-2 text-sm">Clear</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =================== Post Item Modal =================== -->
+  <div id="postModal" class="fixed inset-0 z-50 hidden">
+    <div class="absolute inset-0 bg-black/40" data-close-modal></div>
+    <div class="absolute left-1/2 top-10 -translate-x-1/2 w-[min(680px,92vw)] bg-white rounded-2xl shadow-2xl border border-slate-200">
+      <div class="p-5 border-b border-slate-200 flex items-center justify-between">
+        <h3 class="text-lg font-semibold">Post an Item</h3>
+        <button class="p-2 rounded-lg border border-slate-200" data-close-modal aria-label="Close">✕</button>
+      </div>
+      <div class="p-5 space-y-4 max-h-[70vh] overflow-y-auto">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium mb-1">Title</label>
+            <input id="p_title" type="text" class="w-full rounded-xl border-slate-300" placeholder="e.g., Chicco stroller">
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1">Category</label>
+            <select id="p_category" class="w-full rounded-xl border-slate-300"></select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1">Condition</label>
+            <select id="p_condition" class="w-full rounded-xl border-slate-300">
+              <option>New</option>
+              <option>Like New</option>
+              <option>Good</option>
+              <option>Fair</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1">Price (THB)</label>
+            <input id="p_price" type="number" inputmode="numeric" class="w-full rounded-xl border-slate-300" placeholder="e.g., 1500">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium mb-1">Location</label>
+          <input id="p_location" type="text" class="w-full rounded-xl border-slate-300" placeholder="Bangkok, TH">
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium mb-1">Description</label>
+          <textarea id="p_desc" rows="4" class="w-full rounded-xl border-slate-300" placeholder="Short description, usage time, what’s included, pickup/delivery note..."></textarea>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium mb-2">Photos (up to 5)</label>
+          <div class="flex items-center gap-3">
+            <label class="flex items-center gap-2 px-4 py-2 border border-slate-300 rounded-xl cursor-pointer hover:bg-slate-50">
+              <svg class="w-5 h-5"><use href="#plus"></use></svg>
+              <span>Upload from device</span>
+              <input id="p_images" type="file" accept="image/*" multiple class="hidden">
+            </label>
+            <span class="text-xs text-slate-500">PNG/JPG, max 5 photos</span>
+          </div>
+          <div id="p_preview" class="mt-3 flex flex-wrap gap-2"></div>
+        </div>
+      </div>
+      <div class="p-5 border-t border-slate-200 flex items-center justify-end gap-2">
+        <button class="px-4 py-2 rounded-xl border border-slate-300" data-close-modal>Cancel</button>
+        <button id="postSubmitBtn" class="px-4 py-2 rounded-xl bg-violet-600 hover:bg-violet-700 text-white font-medium">Post</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =================== Item Detail Modal =================== -->
+  <div id="detailModal" class="fixed inset-0 z-50 hidden">
+    <div class="absolute inset-0 bg-black/40" data-close-detail></div>
+    <div class="absolute left-1/2 top-6 -translate-x-1/2 w-[min(980px,96vw)] bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden">
+      <div class="grid md:grid-cols-2">
+        <!-- Gallery -->
+        <div class="relative bg-slate-100">
+          <div class="aspect-square md:aspect-[4/3]">
+            <img id="detailMainImg" alt="" class="w-full h-full object-contain bg-white">
+          </div>
+          <button id="galleryPrev" class="absolute left-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/90 border shadow" aria-label="Previous image">◀</button>
+          <button id="galleryNext" class="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/90 border shadow" aria-label="Next image">▶</button>
+          <div id="detailThumbs" class="p-3 flex gap-2 overflow-x-auto no-scrollbar bg-white/90 border-t"></div>
+        </div>
+        <!-- Info -->
+        <div class="p-5 space-y-3">
+          <div class="flex items-start justify-between gap-3">
+            <h3 id="detailTitle" class="text-xl font-semibold">Item title</h3>
+            <button class="p-2 rounded-lg border" data-close-detail aria-label="Close">✕</button>
+          </div>
+          <div class="flex items-center gap-2 text-sm text-slate-600">
+            <span id="detailCondition" class="px-2 py-0.5 rounded-full bg-slate-100">Condition</span>
+            <span>•</span>
+            <span id="detailTime">2h ago</span>
+          </div>
+          <div class="text-2xl font-semibold" id="detailPrice">฿0</div>
+          <div class="text-sm text-slate-600" id="detailLocation">📍 Location</div>
+          <p class="text-slate-700 leading-relaxed" id="detailDesc"></p>
+
+          <div class="pt-2 flex items-center gap-2">
+            <button class="flex-1 rounded-xl bg-violet-600 hover:bg-violet-700 text-white py-2 font-medium">Message seller</button>
+            <button id="detailSaveBtn" class="px-3 py-2 rounded-xl border">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =================== Scripts =================== -->
+  <script>
+    // ===== Config & helpers =====
+    const CATEGORIES = ["Strollers","Car Seats","Feeding","Clothing","Bath & Care","Toys","Nursery","Maternity","Others"];
+    const PAGE_SIZE = 12;
+
+    const fmtPrice = n => new Intl.NumberFormat("th-TH", { style: "currency", currency: "THB", maximumFractionDigits: 0 }).format(n);
+    const timeAgo = ts => {
+      const s = Math.floor((Date.now()-ts)/1000);
+      if (s < 60) return s + "s ago";
+      const m = Math.floor(s/60); if (m < 60) return m + "m ago";
+      const h = Math.floor(m/60); if (h < 24) return h + "h ago";
+      const d = Math.floor(h/24); return d + "d ago";
+    };
+
+    // ===== Build items array from STATIC DOM cards =====
+    const itemsGrid = document.getElementById("itemsGrid");
+    const domCards = Array.from(itemsGrid.querySelectorAll(".market-card"));
+    const ALL_ITEMS = domCards.map(node => ({
+      node,
+      id: node.dataset.id,
+      title: node.dataset.title,
+      category: node.dataset.category,
+      condition: node.dataset.condition,
+      price: Number(node.dataset.price),
+      location: node.dataset.location || "Thailand",
+      createdAt: Number(node.dataset.createdat) || Date.now(),
+      desc: node.dataset.desc || "",
+      images: (node.dataset.images || "").split(",").filter(Boolean)
+    }));
+
+    // ===== Filters state & DOM =====
+    const selected = { q:"", categories:new Set(), conditions:new Set(), priceMin:null, priceMax:null, sort:"newest", page:1 };
+
+    const categoryPills = document.getElementById("categoryPills");
+    const categoryScroller = document.getElementById("categoryScroller");
+    const m_categoryPills = document.getElementById("m_categoryPills");
+
+    function pill(label, active=false) {
+      const btn = document.createElement("button");
+      btn.type="button";
+      btn.className=`px-3 py-1 rounded-full text-sm border ${active ? "bg-violet-600 text-white border-violet-600" : "border-slate-300 hover:bg-slate-100"}`;
+      btn.textContent=label;
+      btn.dataset.value=label;
+      return btn;
+    }
+    function renderCategoryAreas() {
+      categoryPills.innerHTML = "";
+      categoryScroller.innerHTML = "";
+      m_categoryPills.innerHTML = "";
+      const all = pill("All", true);
+      all.addEventListener("click", ()=>{ selected.categories.clear(); syncPills(); selected.page=1; refresh(); });
+      categoryScroller.appendChild(all);
+      CATEGORIES.forEach(cat=>{
+        const p1=pill(cat), p2=pill(cat), p3=pill(cat);
+        [p1,p2,p3].forEach(b=>{
+          b.addEventListener("click", ()=>{
+            if(selected.categories.has(cat)) selected.categories.delete(cat);
+            else selected.categories.add(cat);
+            syncPills(); selected.page=1; refresh();
+          });
+        });
+        categoryPills.appendChild(p1);
+        categoryScroller.appendChild(p2);
+        m_categoryPills.appendChild(p3);
+      });
+      syncPills();
+    }
+    function syncPills(){
+      const setActive = wrap => {
+        [...wrap.querySelectorAll("button")].forEach(b=>{
+          const val=b.dataset.value;
+          const active = val==="All" ? selected.categories.size===0 : selected.categories.has(val);
+          b.className=`px-3 py-1 rounded-full text-sm border ${active ? "bg-violet-600 text-white border-violet-600" : "border-slate-300 hover:bg-slate-100"}`;
+        });
+      };
+      setActive(categoryPills); setActive(categoryScroller); setActive(m_categoryPills);
+    }
+
+    function gatherConditions(){
+      selected.conditions.clear();
+      document.querySelectorAll(".conditionChk:checked").forEach(c=>selected.conditions.add(c.value));
+      document.querySelectorAll(".m_conditionChk:checked").forEach(c=>selected.conditions.add(c.value));
+    }
+
+    // Search + sort sync
+    const searchInput = document.getElementById("searchInput");
+    const searchInputTop = document.getElementById("searchInputTop");
+    const m_searchInput = document.getElementById("m_searchInput");
+    function syncSearchToAll(v){ [searchInput,searchInputTop,m_searchInput].forEach(i=>{ if(i) i.value=v; }); }
+    const sortSelect = document.getElementById("sortSelect");
+    const sortSelectTop = document.getElementById("sortSelectTop");
+    const m_sortSelect = document.getElementById("m_sortSelect");
+    function syncSortToAll(v){ [sortSelect,sortSelectTop,m_sortSelect].forEach(s=>{ if(s) s.value=v; }); }
+
+    // Price
+    const priceMin = document.getElementById("priceMin");
+    const priceMax = document.getElementById("priceMax");
+    const m_priceMin = document.getElementById("m_priceMin");
+    const m_priceMax = document.getElementById("m_priceMax");
+
+    // Buttons / drawers
+    const applyFiltersBtn = document.getElementById("applyFiltersBtn");
+    const clearFiltersBtn = document.getElementById("clearFiltersBtn");
+    const m_applyFiltersBtn = document.getElementById("m_applyFiltersBtn");
+    const m_clearFiltersBtn = document.getElementById("m_clearFiltersBtn");
+    const filtersDrawer = document.getElementById("filtersDrawer");
+    const openFiltersBtn = document.getElementById("openFiltersBtn");
+    const openFiltersBtn2 = document.getElementById("openFiltersBtn2");
+    [openFiltersBtn,openFiltersBtn2].forEach(b=>b?.addEventListener("click", ()=>filtersDrawer.classList.remove("hidden")));
+    filtersDrawer.addEventListener("click", (e)=>{ if(e.target.dataset.closeDrawer!==undefined || e.target.hasAttribute("data-close-drawer")) filtersDrawer.classList.add("hidden"); });
+    filtersDrawer.querySelectorAll("[data-close-drawer]").forEach(el=>el.addEventListener("click", ()=>filtersDrawer.classList.add("hidden")));
+
+    // Grid & pagination
+    const prevPageBtn = document.getElementById("prevPageBtn");
+    const nextPageBtn = document.getElementById("nextPageBtn");
+    const pageIndicator = document.getElementById("pageIndicator");
+
+    // Card click -> open detail
+    ALL_ITEMS.forEach(it => {
+      it.node.addEventListener("click", ()=> openDetail(it));
+    });
+
+    function applyAllFilters(list){
+      const q = selected.q.trim().toLowerCase();
+      let filtered = list.filter(it=>{
+        const matchQ = !q || [it.title,it.desc,it.category,it.location].filter(Boolean).some(v=>String(v).toLowerCase().includes(q));
+        const matchCat = selected.categories.size===0 || selected.categories.has(it.category);
+        const matchCond = selected.conditions.size===0 || selected.conditions.has(it.condition);
+        const okMin = selected.priceMin==null || Number(it.price) >= selected.priceMin;
+        const okMax = selected.priceMax==null || Number(it.price) <= selected.priceMax;
+        return matchQ && matchCat && matchCond && okMin && okMax;
+      });
+      if(selected.sort==="newest") filtered.sort((a,b)=>b.createdAt-a.createdAt);
+      if(selected.sort==="price_low") filtered.sort((a,b)=>a.price-b.price);
+      if(selected.sort==="price_high") filtered.sort((a,b)=>b.price-a.price);
+      return filtered;
+    }
+
+    function paginate(list){
+      const pages = Math.max(1, Math.ceil(list.length / PAGE_SIZE));
+      if(selected.page > pages) selected.page = pages;
+      const start = (selected.page-1)*PAGE_SIZE;
+      const slice = list.slice(start, start+PAGE_SIZE);
+      prevPageBtn.disabled = selected.page===1;
+      nextPageBtn.disabled = selected.page===pages;
+      pageIndicator.textContent = `Page ${selected.page} / ${pages}`;
+      return slice;
+    }
+
+    function refresh(){
+      // Remove all cards, then append in sorted/paginated order
+      const filtered = applyAllFilters(ALL_ITEMS);
+      const page = paginate(filtered);
+      itemsGrid.innerHTML = "";
+      if(page.length===0){
+        itemsGrid.innerHTML = `<div class="col-span-full bg-white rounded-2xl border p-8 text-center text-slate-600">No items match your filters.</div>`;
+        return;
+      }
+      page.forEach(it=>itemsGrid.appendChild(it.node));
+    }
+
+    function wireFilters(){
+      [searchInput,searchInputTop,m_searchInput].forEach(inp=>{
+        inp?.addEventListener("input", e=>{
+          selected.q = e.target.value;
+          syncSearchToAll(selected.q);
+          selected.page=1; refresh();
+        });
+      });
+
+      [sortSelect,sortSelectTop,m_sortSelect].forEach(sel=>{
+        sel?.addEventListener("change", e=>{
+          selected.sort = e.target.value;
+          syncSortToAll(selected.sort);
+          selected.page=1; refresh();
+        });
+      });
+
+      const applyDesktop = ()=>{
+        selected.priceMin = priceMin.value ? Number(priceMin.value) : null;
+        selected.priceMax = priceMax.value ? Number(priceMax.value) : null;
+        gatherConditions(); selected.page=1; refresh();
+      };
+      const applyMobile = ()=>{
+        selected.priceMin = m_priceMin.value ? Number(m_priceMin.value) : null;
+        selected.priceMax = m_priceMax.value ? Number(m_priceMax.value) : null;
+        gatherConditions(); selected.page=1; refresh();
+        filtersDrawer.classList.add("hidden");
+      };
+
+      applyFiltersBtn?.addEventListener("click", applyDesktop);
+      m_applyFiltersBtn?.addEventListener("click", applyMobile);
+
+      const clearAll = ()=>{
+        selected.q=""; selected.categories.clear(); selected.conditions.clear();
+        selected.priceMin=null; selected.priceMax=null; selected.sort="newest"; selected.page=1;
+        syncSearchToAll(""); syncSortToAll("newest");
+        [priceMin,priceMax,m_priceMin,m_priceMax].forEach(i=>{ if(i) i.value=""; });
+        document.querySelectorAll(".conditionChk,.m_conditionChk").forEach(c=>c.checked=false);
+        syncPills(); refresh();
+      };
+      clearFiltersBtn?.addEventListener("click", clearAll);
+      m_clearFiltersBtn?.addEventListener("click", ()=>{ clearAll(); filtersDrawer.classList.add("hidden"); });
+
+      // Pagination
+      prevPageBtn.addEventListener("click", ()=>{ selected.page=Math.max(1, selected.page-1); refresh(); });
+      nextPageBtn.addEventListener("click", ()=>{ selected.page+=1; refresh(); });
+    }
+
+    // ===== Post Modal & Upload preview (will append NEW static card into DOM) =====
+    const postModal = document.getElementById("postModal");
+    const openPostButtons = [document.getElementById("openPostModalBtnTop")].filter(Boolean);
+    openPostButtons.forEach(b=>b.addEventListener("click", ()=>postModal.classList.remove("hidden")));
+    postModal.addEventListener("click", (e)=>{ if(e.target.dataset.closeModal!==undefined || e.target.hasAttribute("data-close-modal")) postModal.classList.add("hidden"); });
+
+    const p_title=document.getElementById("p_title");
+    const p_category=document.getElementById("p_category");
+    const p_condition=document.getElementById("p_condition");
+    const p_price=document.getElementById("p_price");
+    const p_location=document.getElementById("p_location");
+    const p_desc=document.getElementById("p_desc");
+    const p_images=document.getElementById("p_images");
+    const p_preview=document.getElementById("p_preview");
+    const postSubmitBtn=document.getElementById("postSubmitBtn");
+
+    CATEGORIES.forEach(c=>{ const o=document.createElement("option"); o.value=c; o.textContent=c; p_category.appendChild(o); });
+
+    p_images.addEventListener("change", ()=>{
+      p_preview.innerHTML=""; const files = Array.from(p_images.files||[]).slice(0,5);
+      files.forEach(file=>{
+        const r=new FileReader();
+        r.onload=e=>{
+          const img=document.createElement("img");
+          img.src=e.target.result; img.alt=file.name;
+          img.className="h-20 w-20 rounded-xl object-cover border";
+          p_preview.appendChild(img);
+        };
+        r.readAsDataURL(file);
+      });
+    });
+
+    postSubmitBtn.addEventListener("click", ()=>{
+      const title=p_title.value.trim(); const price=Number(p_price.value);
+      if(!title){ alert("Please add a title"); return; }
+      if(!price){ alert("Please set a valid price"); return; }
+
+      const files = Array.from(p_images.files||[]).slice(0,5);
+      Promise.all(files.map(f=>new Promise(res=>{ const r=new FileReader(); r.onload=e=>res(e.target.result); r.readAsDataURL(f); })))
+        .then(urls=>{
+          const id = crypto.randomUUID();
+          const createdAt = Date.now();
+          const article = document.createElement("article");
+          article.className = "market-card bg-white rounded-2xl border overflow-hidden shadow-sm cursor-pointer group";
+          article.dataset.id = id;
+          article.dataset.title = title;
+          article.dataset.category = p_category.value;
+          article.dataset.condition = p_condition.value;
+          article.dataset.price = price;
+          article.dataset.location = p_location.value.trim() || "Thailand";
+          article.dataset.createdat = createdAt;
+          article.dataset.desc = p_desc.value.trim();
+          article.dataset.images = urls.join(",");
+
+          const cover = urls[0] || "https://images.unsplash.com/photo-1544198365-3cde0c14f336?q=80&w=1200&auto=format&fit=crop";
+          article.innerHTML = `
+            <div class="aspect-[4/3] bg-slate-100">
+              <img src="${cover}" alt="${title}" class="w-full h-full object-cover group-hover:opacity-95 transition">
+            </div>
+            <div class="p-3">
+              <div class="flex items-start justify-between gap-2">
+                <h3 class="font-semibold leading-snug line-clamp-2">${title}</h3>
+                <span class="text-xs px-2 py-1 rounded-full bg-slate-100">${p_condition.value}</span>
+              </div>
+              <p class="mt-1 text-slate-600 text-sm line-clamp-2">${article.dataset.desc}</p>
+              <div class="mt-2 flex items-center justify-between">
+                <span class="font-semibold">${fmtPrice(price)}</span>
+                <span class="text-xs text-slate-500">just now</span>
+              </div>
+              <div class="mt-1 text-xs text-slate-500">📍 ${article.dataset.location}</div>
+            </div>
+          `;
+          // click to open detail
+          article.addEventListener("click", ()=> openDetail({
+            node: article,
+            id,
+            title,
+            category: article.dataset.category,
+            condition: article.dataset.condition,
+            price,
+            location: article.dataset.location,
+            createdAt,
+            desc: article.dataset.desc,
+            images: urls
+          }));
+
+          // push into in-memory list and re-render
+          ALL_ITEMS.unshift({
+            node: article, id, title,
+            category: article.dataset.category,
+            condition: article.dataset.condition,
+            price, location: article.dataset.location,
+            createdAt, desc: article.dataset.desc,
+            images: urls
+          });
+          selected.page = 1;
+          refresh();
+
+          // reset form + close
+          [p_title,p_price,p_location,p_desc].forEach(i=>i.value="");
+          p_category.selectedIndex=0; p_condition.selectedIndex=0; p_images.value=""; p_preview.innerHTML="";
+          postModal.classList.add("hidden");
+        });
+    });
+
+    // ===== Detail Modal & Gallery =====
+    const detailModal = document.getElementById("detailModal");
+    const detailMainImg = document.getElementById("detailMainImg");
+    const detailThumbs = document.getElementById("detailThumbs");
+    const detailTitle = document.getElementById("detailTitle");
+    const detailPrice = document.getElementById("detailPrice");
+    const detailCondition = document.getElementById("detailCondition");
+    const detailTime = document.getElementById("detailTime");
+    const detailLocation = document.getElementById("detailLocation");
+    const detailDesc = document.getElementById("detailDesc");
+    const detailSaveBtn = document.getElementById("detailSaveBtn");
+    const galleryPrev = document.getElementById("galleryPrev");
+    const galleryNext = document.getElementById("galleryNext");
+
+    let currentDetail = { item: null, index: 0 };
+
+    function setMainImage(idx){
+      const imgs = currentDetail.item.images && currentDetail.item.images.length ? currentDetail.item.images : ["https://images.unsplash.com/photo-1544198365-3cde0c14f336?q=80&w=1200&auto=format&fit=crop"];
+      currentDetail.index = (idx + imgs.length) % imgs.length;
+      detailMainImg.src = imgs[currentDetail.index];
+      [...detailThumbs.children].forEach((t, i)=>{
+        t.className = "h-14 w-14 rounded-xl object-cover border cursor-pointer " + (i===currentDetail.index ? "ring-2 ring-violet-600" : "");
+      });
+    }
+
+    function openDetail(item){
+      currentDetail.item = item;
+      currentDetail.index = 0;
+
+      // Fill info
+      detailTitle.textContent = item.title;
+      detailPrice.textContent = fmtPrice(item.price);
+      detailCondition.textContent = item.condition;
+      detailTime.textContent = timeAgo(item.createdAt);
+      detailLocation.textContent = "📍 " + (item.location || "Thailand");
+      detailDesc.textContent = item.desc || "";
+
+      // Thumbnails
+      const imgs = item.images && item.images.length ? item.images : ["https://images.unsplash.com/photo-1544198365-3cde0c14f336?q=80&w=1200&auto=format&fit=crop"];
+      detailThumbs.innerHTML = "";
+      imgs.forEach((src, i)=>{
+        const im = document.createElement("img");
+        im.src = src; im.alt = item.title + " " + (i+1);
+        im.className = "h-14 w-14 rounded-xl object-cover border cursor-pointer";
+        im.addEventListener("click", ()=> setMainImage(i));
+        detailThumbs.appendChild(im);
+      });
+      setMainImage(0);
+
+      // Open
+      detailModal.classList.remove("hidden");
+      document.addEventListener("keydown", onEscClose);
+    }
+
+    function onEscClose(e){ if(e.key==="Escape") closeDetail(); }
+    function closeDetail(){
+      detailModal.classList.add("hidden");
+      document.removeEventListener("keydown", onEscClose);
+    }
+
+    detailModal.addEventListener("click", (e)=>{
+      if (e.target.dataset.closeDetail!==undefined || e.target.hasAttribute("data-close-detail")) closeDetail();
+    });
+
+    galleryPrev.addEventListener("click", ()=> setMainImage(currentDetail.index - 1));
+    galleryNext.addEventListener("click", ()=> setMainImage(currentDetail.index + 1));
+
+    detailSaveBtn.addEventListener("click", ()=>{
+      detailSaveBtn.textContent = detailSaveBtn.textContent === "Saved" ? "Save" : "Saved";
+    });
+
+    // ===== Init =====
+    function wireInitialClicksToDetail(){
+      // ensure existing static cards open detail using parsed data
+      ALL_ITEMS.forEach(it=>{
+        it.node.onclick = ()=> openDetail(it);
+      });
+    }
+    function populateCategorySelect(){
+      // already done for Post modal; here only for safety if needed in future
+    }
+
+    renderCategoryAreas();
+    wireFilters();
+    wireInitialClicksToDetail();
+    refresh();
+  </script>
+
+  <!-- =================== SVG Sprites =================== -->
+  <svg aria-hidden="true" class="hidden">
+    <symbol id="home" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V21a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></symbol>
+    <symbol id="community" viewBox="0 0 24 24"><path d="M7 10a4 4 0 1 1 4-4 4 4 0 0 1-4 4zm10 0a3 3 0 1 0-3-3 3 3 0 0 0 3 3zM2 21a5 5 0 0 1 10 0v1H2zm12 0a4 4 0 0 1 8 0v1h-8z"/></symbol>
+    <symbol id="spark" viewBox="0 0 24 24"><path d="M12 2 9 9 2 12l7 3 3 7 3-7 7-3-7-3z"/></symbol>
+    <symbol id="bag" viewBox="0 0 24 24"><path d="M6 7h12l1 14H5zM9 7V5a3 3 0 0 1 6 0v2"/></symbol>
+    <symbol id="user" viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5zm0 2c-5 0-9 3-9 7v1h18v-1c0-4-4-7-9-7z"/></symbol>
+    <symbol id="bell" viewBox="0 0 24 24"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 6-3 8h18c0-2-3-1-3-8m-5 13a3 3 0 0 1-3-3h6a3 3 0 0 1-3 3z"/></symbol>
+    <symbol id="menu" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="search" viewBox="0 0 24 24"><path d="M11 4a7 7 0 1 1-4.95 11.95L3 19l3.05-3.05A7 7 0 0 1 11 4z"/></symbol>
+    <symbol id="plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  </svg>
+</body>
+</html>

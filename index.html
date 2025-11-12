@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MoMent — Home</title>
+  <meta name="description" content="MoMent: A companion app for moms and families — appointments, vaccines, community, AI Q&A, second-hand market, and benefits." />
+  <link rel="icon" href="/favicon.ico" />
+  <!-- Tailwind via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .no-scrollbar::-webkit-scrollbar { display:none; }
+    .no-scrollbar { -ms-overflow-style:none; scrollbar-width:none; }
+  </style>
+</head>
+<body class="h-full bg-slate-50 text-slate-800">
+  <!-- =================== Desktop Topbar =================== -->
+  <header class="hidden md:block sticky top-0 z-40 bg-white/80 backdrop-blur border-b">
+    <div class="max-w-7xl mx-auto px-6 py-3 flex items-center gap-4">
+      <a href="index.html" class="flex items-center gap-2">
+        <img src="logo.png" class="w-9 h-9 rounded-full object-cover" alt="MoMent Logo">
+        <span class="font-semibold">MoMent</span>
+      </a>
+      <nav class="hidden md:flex items-center gap-1 text-sm">
+        <a href="index.html" class="px-3 py-2 rounded-xl bg-slate-100 text-violet-700 font-semibold flex items-center gap-2"><svg class="w-5 h-5"><use href="#home"></use></svg>Home</a>
+        <a href="community.html" class="px-3 py-2 rounded-xl hover:bg-slate-100 text-slate-700 flex items-center gap-2"><svg class="w-5 h-5"><use href="#community"></use></svg>Community</a>
+        <a href="ai.html" class="px-3 py-2 rounded-xl hover:bg-slate-100 text-slate-700 flex items-center gap-2"><svg class="w-5 h-5"><use href="#spark"></use></svg>Ask AI</a>
+        <a href="market.html" class="px-3 py-2 rounded-xl hover:bg-slate-100 text-slate-700 flex items-center gap-2"><svg class="w-5 h-5"><use href="#bag"></use></svg>Market</a>
+        <a href="profile.html" class="px-3 py-2 rounded-xl hover:bg-slate-100 text-slate-700 flex items-center gap-2"><svg class="w-5 h-5"><use href="#user"></use></svg>Profile</a>
+      </nav>
+      <div class="ml-auto flex items-center gap-3">
+        <label class="hidden md:flex items-center bg-slate-100 rounded-xl px-3 py-2 text-sm w-80" aria-label="Global search">
+          <svg class="w-4 h-4 mr-2" aria-hidden="true"><use href="#search"></use></svg>
+          <input placeholder="Search appointments, vaccines, posts, items…" class="bg-transparent outline-none flex-1" />
+        </label>
+        <button class="relative" aria-label="Notifications">
+          <svg class="w-6 h-6 text-slate-700" aria-hidden="true"><use href="#bell"></use></svg>
+          <span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full" aria-hidden="true"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- =================== Mobile Header =================== -->
+  <header class="md:hidden sticky top-0 z-40 bg-white/80 backdrop-blur border-b">
+    <div class="max-w-md mx-auto px-4 py-3 flex items-center gap-3">
+      <a href="menu.html" class="p-2 -ml-2" aria-label="Open menu"><svg class="w-6 h-6"><use href="#menu"></use></svg></a>
+      <div class="flex-1">
+        <p class="text-xs text-slate-500">Welcome back</p>
+        <h1 class="text-base font-semibold">Mom May & Baby Pete</h1>
+      </div>
+      <button class="relative" aria-label="Notifications"><svg class="w-6 h-6"><use href="#bell"></use></svg><span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full"></span></button>
+    </div>
+  </header>
+
+  <!-- =================== Main Responsive Grid =================== -->
+  <div class="max-w-7xl mx-auto w-full md:px-6">
+    <div class="md:grid md:grid-cols-12 md:gap-6">
+      <!-- Left Sidebar (Desktop) -->
+      <aside class="hidden md:block md:col-span-3 lg:col-span-2 py-6">
+        <div class="sticky top-[68px] space-y-4">
+          <!-- Family Switcher -->
+          <section class="bg-white rounded-2xl p-4 shadow-sm" aria-labelledby="family-card-heading">
+            <p id="family-card-heading" class="text-xs text-slate-500 mb-1">Profile</p>
+            <div class="flex items-center gap-3">
+              <img id="familyAvatar" src="https://thumbs.dreamstime.com/b/young-mother-taking-care-her-little-baby-girl-mom-daughter-outdoors-loving-family-s-day-concept-beautiful-attractive-mum-166987760.jpg?w=576" alt="Family avatar" class="w-10 h-10 rounded-full object-cover border border-slate-200" />
+              <div>
+                <div id="familyCaregiver" class="font-semibold">Mom May</div>
+                <div id="familyBaby" class="text-xs text-slate-500">Baby Pete (4 mo)</div>
+              </div>
+            </div>
+            <button id="switchFamilyBtn" class="mt-3 w-full border rounded-xl py-2 text-sm">Switch family member</button>
+          </section>
+
+          <!-- Quick Actions -->
+          <section class="bg-white rounded-2xl p-4 shadow-sm">
+            <p class="font-semibold mb-2">Quick actions</p>
+            <div class="grid grid-cols-2 gap-2 text-sm">
+              <a href="#reminders" class="rounded-xl border py-2 text-center">Add reminder</a>
+              <a href="#appointments" class="rounded-xl border py-2 text-center">Book visit</a>
+              <a href="#vaccines" class="rounded-xl border py-2 text-center">Log vaccine</a>
+              <a href="community.html" class="rounded-xl border py-2 text-center">Write a post</a>
+            </div>
+          </section>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="md:col-span-9 lg:col-span-7 px-4 md:px-0 py-4 md:py-6 space-y-4">
+        <!-- Today / Timeline Snapshot -->
+        <section class="bg-white rounded-2xl p-4 shadow-sm" aria-labelledby="today-heading">
+          <div class="flex items-center justify-between mb-3">
+            <h2 id="today-heading" class="font-semibold">Today</h2>
+            <a href="timeline.html" class="text-violet-700 text-sm font-medium">View timeline</a>
+          </div>
+          <div id="todayCards" class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-center">
+            <div class="p-3 rounded-xl bg-slate-50">
+              <p class="text-xs text-slate-500">Pregnancy age</p>
+              <p class="text-lg font-semibold">24 weeks</p>
+            </div>
+            <div class="p-3 rounded-xl bg-slate-50">
+              <p class="text-xs text-slate-500">Next visit</p>
+              <p class="text-lg font-semibold">31 Oct</p>
+            </div>
+            <div class="p-3 rounded-xl bg-slate-50">
+              <p class="text-xs text-slate-500">Baby vaccine</p>
+              <p class="text-lg font-semibold">HepB #2</p>
+            </div>
+          </div>
+          <div id="todayActions" class="mt-3 flex gap-2 flex-wrap">
+            <a href="#reminders" class="flex-1 bg-violet-600 text-white rounded-xl py-2 font-medium text-center">Add reminder</a>
+            <a href="#appointments" class="flex-1 border rounded-xl py-2 font-medium text-center">Book visit</a>
+          </div>
+        </section>
+
+        <!-- Reminders -->
+        <section id="reminders" class="bg-white rounded-2xl p-4 shadow-sm" aria-labelledby="reminders-heading">
+          <div class="flex items-center justify-between mb-2">
+            <h3 id="reminders-heading" class="font-semibold">Reminders</h3>
+            <div class="flex items-center gap-2 text-sm">
+              <button id="addReminderBtn" class="rounded-xl border px-3 py-1.5">Add</button>
+              <a href="reminders.html" class="text-sm text-violet-700 font-medium">See all</a>
+            </div>
+          </div>
+          <form id="reminderForm" class="hidden bg-slate-50 rounded-xl p-3 space-y-3 text-sm">
+            <div class="grid md:grid-cols-2 gap-2">
+              <label class="grid gap-1">
+                <span class="text-xs text-slate-500 uppercase tracking-wide">Title</span>
+                <input id="remTitle" class="rounded-xl border px-3 py-2" placeholder="e.g., Pediatric visit" required>
+              </label>
+              <label class="grid gap-1">
+                <span class="text-xs text-slate-500 uppercase tracking-wide">Date &amp; time</span>
+                <input id="remWhen" type="datetime-local" class="rounded-xl border px-3 py-2" required>
+              </label>
+            </div>
+            <div class="grid md:grid-cols-[1fr,auto] gap-2">
+              <label class="grid gap-1">
+                <span class="text-xs text-slate-500 uppercase tracking-wide">Notes</span>
+                <input id="remNote" class="rounded-xl border px-3 py-2" placeholder="Add context (optional)">
+              </label>
+              <label class="grid gap-1">
+                <span class="text-xs text-slate-500 uppercase tracking-wide">Category</span>
+                <select id="remCategory" class="rounded-xl border px-3 py-2">
+                  <option value="appointment">Appointment</option>
+                  <option value="vaccine">Vaccine</option>
+                  <option value="wellness">Wellness</option>
+                  <option value="task">Task</option>
+                </select>
+              </label>
+            </div>
+            <div class="flex justify-end gap-2">
+              <button type="button" id="cancelReminderBtn" class="px-3 py-1.5 rounded-xl border">Cancel</button>
+              <button type="submit" class="px-3 py-1.5 rounded-xl bg-violet-600 text-white">Save reminder</button>
+            </div>
+          </form>
+          <ul id="remindersList" class="space-y-2">
+            <li class="flex items-center gap-3 border rounded-xl px-3 py-2">
+              <span class="w-2 h-2 rounded-full bg-emerald-500" aria-hidden="true"></span>
+              <div>
+                <p class="text-sm font-medium">HepB #2</p>
+                <p class="text-xs text-slate-500">Nov 7, 09:00 · Pete's 4-month shot</p>
+              </div>
+            </li>
+            <li class="flex items-center gap-3 border rounded-xl px-3 py-2">
+              <span class="w-2 h-2 rounded-full bg-amber-500" aria-hidden="true"></span>
+              <div>
+                <p class="text-sm font-medium">Ultrasound</p>
+                <p class="text-xs text-slate-500">Oct 31, 10:30 · Anomaly scan</p>
+              </div>
+            </li>
+          </ul>
+        </section>
+
+        <!-- Community Preview -->
+        <section class="bg-white rounded-2xl p-4 shadow-sm" aria-labelledby="community-preview-heading">
+          <div class="flex items-center justify-between mb-3">
+            <h3 id="community-preview-heading" class="font-semibold">From the community</h3>
+            <a href="community.html" class="text-sm text-violet-700 font-medium">See more</a>
+          </div>
+          <div id="communityPreview" class="grid sm:grid-cols-2 gap-3">
+            <article class="border rounded-xl p-3">
+              <div class="flex items-center gap-2 text-xs text-slate-500 mb-1">
+                <span class="px-2 py-0.5 rounded-full bg-slate-100">Nutrition</span>
+                <span>15 min ago</span>
+              </div>
+              <h4 class="font-semibold">24-week pregnancy meal ideas</h4>
+              <p class="text-sm text-slate-600 line-clamp-2">Share easy, high-protein menus…</p>
+            </article>
+            <article class="border rounded-xl p-3">
+              <div class="flex items-center gap-2 text-xs text-slate-500 mb-1">
+                <span class="px-2 py-0.5 rounded-full bg-slate-100">Baby care</span>
+                <span>1 hr ago</span>
+              </div>
+              <h4 class="font-semibold">Bedtime routine that works</h4>
+              <p class="text-sm text-slate-600 line-clamp-2">Try white noise + consistent cues…</p>
+            </article>
+          </div>
+        </section>
+
+        <!-- Benefits / Insurance CTA -->
+        <section class="bg-gradient-to-r from-violet-600 to-fuchsia-500 text-white rounded-2xl p-4 shadow-sm" aria-labelledby="benefits-heading">
+          <h3 id="benefits-heading" class="font-semibold">Benefits you may be eligible for</h3>
+          <p class="text-sm text-white/90">Newborn allowance + nearby antenatal clinics</p>
+          <div class="mt-3 flex gap-2">
+            <a href="benefits.html" class="flex-1 bg-white text-violet-700 rounded-xl py-2 font-medium text-center">View benefits</a>
+            <a href="insurance.html" class="flex-1 bg-white/10 border border-white/30 rounded-xl py-2 font-medium text-center">View insurance</a>
+          </div>
+        </section>
+      </main>
+
+      <!-- Right Sidebar (Desktop) -->
+      <aside class="hidden lg:block lg:col-span-3 py-6">
+        <div class="sticky top-[68px] space-y-4">
+          <!-- Upcoming Appointments -->
+          <section id="appointments" class="bg-white rounded-2xl p-4 shadow-sm" aria-labelledby="upcoming-heading">
+            <div class="flex items-center justify-between mb-2">
+              <h3 id="upcoming-heading" class="font-semibold">Upcoming</h3>
+              <a href="appointments.html" class="text-sm text-violet-700">All</a>
+            </div>
+            <ul id="appointmentsList" class="space-y-2 text-sm">
+              <li class="flex items-center gap-3">
+                <span class="w-2 h-2 rounded-full bg-amber-500" aria-hidden="true"></span>
+                <div>
+                  <p class="text-sm font-medium">Ultrasound (3D)</p>
+                  <p class="text-xs text-slate-500">Oct 31, 10:30 · Samitivej Sukhumvit</p>
+                </div>
+              </li>
+              <li class="flex items-center gap-3">
+                <span class="w-2 h-2 rounded-full bg-emerald-500" aria-hidden="true"></span>
+                <div>
+                  <p class="text-sm font-medium">HepB #2</p>
+                  <p class="text-xs text-slate-500">Nov 7, 09:00 · Health Center Ladprao</p>
+                </div>
+              </li>
+            </ul>
+            <a href="appointments-new.html" class="mt-3 w-full inline-block text-center rounded-xl border py-2 text-sm">Add appointment</a>
+          </section>
+
+          <!-- Benefits Summary -->
+          <section class="bg-gradient-to-r from-violet-600 to-fuchsia-500 text-white rounded-2xl p-4 shadow-sm" aria-labelledby="suggested-benefits">
+            <h3 id="suggested-benefits" class="font-semibold">Suggested benefits</h3>
+            <p class="text-sm text-white/90">Check eligibility and set document deadlines</p>
+            <a href="benefits.html" class="mt-3 w-full inline-block text-center bg-white text-violet-700 rounded-xl py-2 text-sm">Open benefits</a>
+          </section>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <!-- =================== Bottom Nav (Mobile) =================== -->
+  <nav class="md:hidden sticky bottom-0 bg-white border-t" aria-label="Primary">
+    <div class="max-w-md mx-auto px-2 py-2 grid grid-cols-5 text-xs">
+      <a href="index.html" class="flex flex-col items-center gap-1 text-violet-700 font-medium" aria-current="page"><svg class="w-6 h-6"><use href="#home"></use></svg>Home</a>
+      <a href="community.html" class="flex flex-col items-center gap-1 text-slate-500"><svg class="w-6 h-6"><use href="#community"></use></svg>Community</a>
+      <a href="ai.html" class="flex flex-col items-center -mt-6" aria-label="Ask AI">
+        <span class="w-14 h-14 rounded-full bg-violet-600 text-white grid place-items-center shadow-lg">
+          <svg class="w-7 h-7"><use href="#spark"></use></svg>
+        </span>
+        <span class="mt-1 text-slate-500">Ask AI</span>
+      </a>
+      <a href="market.html" class="flex flex-col items-center gap-1 text-slate-500"><svg class="w-6 h-6"><use href="#bag"></use></svg>Market</a>
+      <a href="profile.html" class="flex flex-col items-center gap-1 text-slate-500"><svg class="w-6 h-6"><use href="#user"></use></svg>Profile</a>
+    </div>
+  </nav>
+
+  <!-- =================== SVG Sprites =================== -->
+  <svg aria-hidden="true" class="hidden">
+    <symbol id="home" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V21a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></symbol>
+    <symbol id="community" viewBox="0 0 24 24"><path d="M7 10a4 4 0 1 1 4-4 4 4 0 0 1-4 4zm10 0a3 3 0 1 0-3-3 3 3 0 0 0 3 3zM2 21a5 5 0 0 1 10 0v1H2zm12 0a4 4 0 0 1 8 0v1h-8z"/></symbol>
+    <symbol id="spark" viewBox="0 0 24 24"><path d="M12 2 9 9 2 12l7 3 3 7 3-7 7-3-7-3z"/></symbol>
+    <symbol id="bag" viewBox="0 0 24 24"><path d="M6 7h12l1 14H5zM9 7V5a3 3 0 0 1 6 0v2"/></symbol>
+    <symbol id="user" viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5zm0 2c-5 0-9 3-9 7v1h18v-1c0-4-4-7-9-7z"/></symbol>
+    <symbol id="bell" viewBox="0 0 24 24"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 6-3 8h18c0-2-3-1-3-8m-5 13a3 3 0 0 1-3-3h6a3 3 0 0 1-3 3z"/></symbol>
+    <symbol id="menu" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="search" viewBox="0 0 24 24"><path d="M11 4a7 7 0 1 1-4.95 11.95L3 19l3.05-3.05A7 7 0 0 1 11 4z"/></symbol>
+  </svg>
+  <div id="toast" class="fixed bottom-4 right-4 z-50 hidden rounded-xl bg-slate-900 text-white px-4 py-2 text-sm shadow-lg"></div>
+  <script type="module" src="assets/js/home.js"></script>
+</body>
+</html>

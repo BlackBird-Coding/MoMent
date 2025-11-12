@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MoMent — Appointments</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+  <header class="sticky top-0 z-40 bg-white/80 backdrop-blur border-b">
+    <div class="max-w-7xl mx-auto px-6 py-3 flex items-center gap-4">
+      <a href="index.html" class="flex items-center gap-2">
+        <img src="moment_logo_notext.png" alt="MoMent logo" class="h-9 w-auto" />
+        <span class="font-semibold">MoMent</span>
+        
+      </a>
+      <nav class="hidden md:flex items-center gap-1 text-sm">
+        <a href="index.html" class="px-3 py-2 rounded-xl hover:bg-slate-100 flex items-center gap-2 text-slate-600">
+          <svg class="w-5 h-5"><use href="#home"></use></svg>Home
+        </a>
+        <a href="reminders.html" class="px-3 py-2 rounded-xl hover:bg-slate-100 flex items-center gap-2 text-slate-600">
+          <svg class="w-5 h-5"><use href="#bell"></use></svg>Reminders
+        </a>
+        <a href="appointments.html" class="px-3 py-2 rounded-xl bg-slate-100 text-violet-700 font-semibold flex items-center gap-2">
+          <svg class="w-5 h-5"><use href="#calendar"></use></svg>Appointments
+        </a>
+        <a href="vaccines.html" class="px-3 py-2 rounded-xl hover:bg-slate-100 flex items-center gap-2 text-slate-600">
+          <svg class="w-5 h-5"><use href="#vial"></use></svg>Vaccines
+        </a>
+      </nav>
+      <div class="ml-auto flex items-center gap-3">
+        <a href="appointments-new.html" class="inline-flex items-center gap-2 text-sm rounded-xl bg-violet-600 text-white px-3 py-2">
+          <svg class="w-4 h-4"><use href="#plus"></use></svg>New appointment
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-1">
+    <section class="max-w-5xl mx-auto px-4 md:px-6 py-6 grid gap-6">
+      <div class="bg-white rounded-2xl p-5 shadow-sm flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+        <div>
+          <h1 class="text-2xl font-semibold">Appointments &amp; visits</h1>
+          <p class="text-sm text-slate-500">Review upcoming prenatal visits and baby vaccinations. Update or reschedule as needed.</p>
+        </div>
+        <a href="appointments-new.html" class="text-sm rounded-xl border px-3 py-2 flex items-center gap-2">
+          <svg class="w-4 h-4"><use href="#plus"></use></svg>Schedule new
+        </a>
+      </div>
+
+      <div class="bg-white rounded-2xl p-5 shadow-sm">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-3">
+          <h2 class="font-semibold">Upcoming</h2>
+          <button id="clearPastBtn" class="self-start md:self-center text-sm rounded-xl border px-3 py-2">Remove past events</button>
+        </div>
+        <div id="appointmentsEmpty" class="hidden rounded-xl border border-dashed border-slate-300 p-6 text-sm text-slate-500 text-center">
+          No visits scheduled — create one with the button above.
+        </div>
+        <ul id="appointmentsList" class="space-y-3"></ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-white border-t">
+    <div class="max-w-5xl mx-auto px-4 py-3 text-xs text-slate-500 flex justify-between">
+      <span>MoMent — appointments</span>
+      <a href="index.html" class="text-violet-600">Back to dashboard</a>
+    </div>
+  </footer>
+
+  <svg aria-hidden="true" class="hidden">
+    <symbol id="home" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V21a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></symbol>
+    <symbol id="bell" viewBox="0 0 24 24"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 6-3 8h18c0-2-3-1-3-8m-5 13a3 3 0 0 1-3-3h6a3 3 0 0 1-3 3z"/></symbol>
+    <symbol id="calendar" viewBox="0 0 24 24"><path d="M7 2v3m10-3v3m-13 4h16M4 6h16a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1z"/></symbol>
+    <symbol id="vial" viewBox="0 0 24 24"><path d="M7 2h10v4H7zM6 6h12l-1 14H7z" /></symbol>
+    <symbol id="plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  </svg>
+
+  <div id="toast" class="fixed bottom-4 right-4 z-50 hidden rounded-xl bg-slate-900 text-white px-4 py-2 text-sm shadow-lg"></div>
+  <script type="module" src="assets/js/appointments.js"></script>
+</body>
+</html>
+
+

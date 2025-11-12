@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MoMent — Schedule Appointment</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+  <header class="sticky top-0 z-40 bg-white/80 backdrop-blur border-b">
+    <div class="max-w-5xl mx-auto px-6 py-3 flex items-center gap-4">
+      <a href="index.html" class="flex items-center gap-2">
+        <img src="logo.png" class="w-9 h-9 rounded-full object-cover" alt="MoMent Logo">
+        <span class="font-semibold">MoMent</span>
+      </a>
+      <nav class="hidden md:flex items-center gap-1 text-sm">
+        <a href="reminders.html" class="px-3 py-2 rounded-xl hover:bg-slate-100 flex items-center gap-2 text-slate-600">
+          <svg class="w-5 h-5"><use href="#bell"></use></svg>Reminders
+        </a>
+        <a href="appointments.html" class="px-3 py-2 rounded-xl hover:bg-slate-100 flex items-center gap-2 text-slate-600">
+          <svg class="w-5 h-5"><use href="#calendar"></use></svg>Appointments
+        </a>
+        <a href="appointments-new.html" class="px-3 py-2 rounded-xl bg-slate-100 text-violet-700 font-semibold flex items-center gap-2">
+          <svg class="w-5 h-5"><use href="#plus"></use></svg>Schedule
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="flex-1">
+    <section class="max-w-3xl mx-auto px-4 md:px-6 py-6 grid gap-6">
+      <div class="bg-white rounded-2xl p-5 shadow-sm">
+        <h1 class="text-2xl font-semibold mb-2">Schedule a visit</h1>
+        <p class="text-sm text-slate-500">Add prenatal checkups, baby vaccines, or personal reminders to keep the family on track.</p>
+      </div>
+
+      <div class="bg-white rounded-2xl p-5 shadow-sm">
+        <form id="appointmentForm" class="grid gap-4">
+          <div class="grid md:grid-cols-2 gap-3">
+            <label class="grid gap-1 text-sm">
+              <span class="text-slate-500">Title</span>
+              <input id="aptTitle" class="rounded-xl border px-3 py-2" placeholder="e.g., 28-week prenatal visit" required />
+            </label>
+            <label class="grid gap-1 text-sm">
+              <span class="text-slate-500">Type</span>
+              <select id="aptType" class="rounded-xl border px-3 py-2">
+                <option>Prenatal</option>
+                <option>Vaccine</option>
+                <option>Wellness</option>
+                <option>Follow-up</option>
+                <option>Other</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-3">
+            <label class="grid gap-1 text-sm">
+              <span class="text-slate-500">Date &amp; time</span>
+              <input id="aptWhen" type="datetime-local" class="rounded-xl border px-3 py-2" required />
+            </label>
+            <label class="grid gap-1 text-sm">
+              <span class="text-slate-500">Location</span>
+              <input id="aptLocation" class="rounded-xl border px-3 py-2" placeholder="Clinic or hospital" />
+            </label>
+          </div>
+
+          <label class="grid gap-1 text-sm">
+            <span class="text-slate-500">Notes</span>
+            <textarea id="aptNotes" rows="3" class="rounded-xl border px-3 py-2" placeholder="Add instructions or prep details"></textarea>
+          </label>
+
+          <div class="flex justify-end gap-2">
+            <a href="appointments.html" class="rounded-xl border px-4 py-2 text-sm">Cancel</a>
+            <button type="submit" class="rounded-xl bg-violet-600 text-white px-4 py-2 text-sm">Save appointment</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-white border-t">
+    <div class="max-w-3xl mx-auto px-4 py-3 text-xs text-slate-500 flex justify-between">
+      <span>MoMent — schedule appointment</span>
+      <a href="appointments.html" class="text-violet-600">Back to appointments</a>
+    </div>
+  </footer>
+
+  <svg aria-hidden="true" class="hidden">
+    <symbol id="bell" viewBox="0 0 24 24"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 6-3 8h18c0-2-3-1-3-8m-5 13a3 3 0 0 1-3-3h6a3 3 0 0 1-3 3z"/></symbol>
+    <symbol id="calendar" viewBox="0 0 24 24"><path d="M7 2v3m10-3v3m-13 4h16M4 6h16a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1z"/></symbol>
+    <symbol id="plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  </svg>
+
+  <div id="toast" class="fixed bottom-4 right-4 z-50 hidden rounded-xl bg-slate-900 text-white px-4 py-2 text-sm shadow-lg"></div>
+  <script type="module" src="assets/js/appointments-new.js"></script>
+</body>
+</html>

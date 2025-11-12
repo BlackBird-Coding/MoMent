@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MoMent — Reminders</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+  <header class="sticky top-0 z-40 bg-white/80 backdrop-blur border-b">
+    <div class="max-w-7xl mx-auto px-6 py-3 flex items-center gap-4">
+      <a href="index.html" class="flex items-center gap-2">
+        <img src="logo.png" class="w-9 h-9 rounded-full object-cover" alt="MoMent Logo">
+        <span class="font-semibold">MoMent</span>
+      </a>
+      <nav class="hidden md:flex items-center gap-1 text-sm">
+        <a href="index.html" class="px-3 py-2 rounded-xl hover:bg-slate-100 flex items-center gap-2 text-slate-600">
+          <svg class="w-5 h-5"><use href="#home"></use></svg>Home
+        </a>
+        <a href="reminders.html" class="px-3 py-2 rounded-xl bg-slate-100 text-violet-700 font-semibold flex items-center gap-2">
+          <svg class="w-5 h-5"><use href="#bell"></use></svg>Reminders
+        </a>
+        <a href="appointments.html" class="px-3 py-2 rounded-xl hover:bg-slate-100 flex items-center gap-2 text-slate-600">
+          <svg class="w-5 h-5"><use href="#calendar"></use></svg>Appointments
+        </a>
+        <a href="vaccines.html" class="px-3 py-2 rounded-xl hover:bg-slate-100 flex items-center gap-2 text-slate-600">
+          <svg class="w-5 h-5"><use href="#vial"></use></svg>Vaccines
+        </a>
+      </nav>
+      <div class="ml-auto flex items-center gap-3">
+        <a href="appointments-new.html" class="hidden md:inline-flex items-center gap-2 text-sm rounded-xl bg-violet-600 text-white px-3 py-2">
+          <svg class="w-4 h-4"><use href="#plus"></use></svg>New appointment
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-1">
+    <section class="max-w-4xl mx-auto px-4 md:px-6 py-6 grid gap-6">
+      <div class="bg-white rounded-2xl p-5 shadow-sm">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+          <div>
+            <h1 class="text-2xl font-semibold">Reminders</h1>
+            <p class="text-sm text-slate-500">Track upcoming tasks, vaccines, and check-ins for Mom May &amp; Baby Pete.</p>
+          </div>
+          <button id="clearCompletedBtn" class="self-start md:self-center text-sm rounded-xl border px-3 py-2">Clear completed</button>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-2xl p-5 shadow-sm">
+        <h2 class="font-semibold mb-3">Add a reminder</h2>
+        <form id="reminderForm" class="grid gap-3 md:grid-cols-2">
+          <label class="grid gap-1 text-sm">
+            <span class="text-slate-500">Title</span>
+            <input id="remTitle" class="rounded-xl border px-3 py-2" placeholder="e.g., Pediatric visit" required />
+          </label>
+          <label class="grid gap-1 text-sm">
+            <span class="text-slate-500">Date &amp; time</span>
+            <input id="remWhen" type="datetime-local" class="rounded-xl border px-3 py-2" required />
+          </label>
+          <label class="grid gap-1 text-sm">
+            <span class="text-slate-500">Category</span>
+            <select id="remCategory" class="rounded-xl border px-3 py-2">
+              <option value="appointment">Appointment</option>
+              <option value="vaccine">Vaccine</option>
+              <option value="wellness">Wellness</option>
+              <option value="task">Task</option>
+            </select>
+          </label>
+          <label class="grid gap-1 text-sm">
+            <span class="text-slate-500">Notes (optional)</span>
+            <input id="remNote" class="rounded-xl border px-3 py-2" placeholder="Add context" />
+          </label>
+          <div class="md:col-span-2 flex justify-end gap-2">
+            <button type="reset" class="rounded-xl border px-4 py-2 text-sm">Reset</button>
+            <button type="submit" class="rounded-xl bg-violet-600 text-white px-4 py-2 text-sm">Save reminder</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="bg-white rounded-2xl p-5 shadow-sm">
+        <h2 class="font-semibold mb-3">Upcoming &amp; past reminders</h2>
+        <div id="remindersEmpty" class="hidden rounded-xl border border-dashed border-slate-300 p-6 text-sm text-slate-500 text-center">
+          Nothing scheduled yet — add your first reminder above.
+        </div>
+        <ul id="remindersList" class="space-y-3"></ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-white border-t">
+    <div class="max-w-4xl mx-auto px-4 py-3 text-xs text-slate-500 flex justify-between">
+      <span>MoMent — reminders</span>
+      <a href="index.html" class="text-violet-600">Back to dashboard</a>
+    </div>
+  </footer>
+
+  <svg aria-hidden="true" class="hidden">
+    <symbol id="home" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V21a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></symbol>
+    <symbol id="bell" viewBox="0 0 24 24"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 6-3 8h18c0-2-3-1-3-8m-5 13a3 3 0 0 1-3-3h6a3 3 0 0 1-3 3z"/></symbol>
+    <symbol id="calendar" viewBox="0 0 24 24"><path d="M7 2v3m10-3v3m-13 4h16M4 6h16a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1z"/></symbol>
+    <symbol id="vial" viewBox="0 0 24 24"><path d="M7 2h10v4H7zM6 6h12l-1 14H7z" /></symbol>
+    <symbol id="plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  </svg>
+
+  <div id="toast" class="fixed bottom-4 right-4 z-50 hidden rounded-xl bg-slate-900 text-white px-4 py-2 text-sm shadow-lg"></div>
+  <script type="module" src="assets/js/reminders.js"></script>
+</body>
+</html>

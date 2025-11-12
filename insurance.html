@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MoMent — Insurance Center</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+  <header class="sticky top-0 z-40 bg-white/80 backdrop-blur border-b">
+    <div class="max-w-4xl mx-auto px-6 py-3 flex items-center gap-4">
+      <a href="index.html" class="flex items-center gap-2">
+        <img src="logo.png" class="w-9 h-9 rounded-full object-cover" alt="MoMent Logo">
+        <span class="font-semibold">MoMent</span>
+      </a>
+      <nav class="hidden md:flex items-center gap-1 text-sm">
+        <a href="benefits.html" class="px-3 py-2 rounded-xl hover:bg-slate-100 flex items-center gap-2 text-slate-600">
+          <svg class="w-5 h-5"><use href="#heart"></use></svg>Benefits
+        </a>
+        <a href="insurance.html" class="px-3 py-2 rounded-xl bg-slate-100 text-violet-700 font-semibold flex items-center gap-2">
+          <svg class="w-5 h-5"><use href="#shield"></use></svg>Insurance
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="flex-1">
+    <section class="max-w-4xl mx-auto px-4 md:px-6 py-6 grid gap-6">
+      <div class="bg-white rounded-2xl p-5 shadow-sm">
+        <h1 class="text-2xl font-semibold">Insurance &amp; coverage</h1>
+        <p class="text-sm text-slate-500 mt-1">Centralize policies for mom, baby, and caregivers, plus quick actions for claims.</p>
+      </div>
+
+      <div class="bg-white rounded-2xl p-5 shadow-sm grid gap-4">
+        <article class="border rounded-2xl p-4 flex flex-col gap-2">
+          <div class="flex items-center justify-between">
+            <div>
+              <h2 class="font-semibold">Maternity coverage</h2>
+              <p class="text-sm text-slate-500">Allianz Care — policy #MAY-2025-178</p>
+            </div>
+            <span class="text-xs px-2 py-1 rounded-full bg-emerald-100 text-emerald-700">Active</span>
+          </div>
+          <div class="text-sm text-slate-600">Covers prenatal visits (up to THB 40,000) and emergency delivery. Requires pre-authorisation for C-section.</div>
+          <div class="flex gap-2">
+            <button class="insurance-action rounded-xl border px-3 py-2 text-sm" data-action="download" data-title="Maternity coverage policy" data-file="maternity-policy.txt">Download policy</button>
+            <button class="insurance-action rounded-xl border px-3 py-2 text-sm" data-action="claim" data-title="Maternity claim follow-up" data-when="2025-11-12T10:00:00+07:00">Submit claim</button>
+          </div>
+        </article>
+
+        <article class="border rounded-2xl p-4 flex flex-col gap-2">
+          <div class="flex items-center justify-between">
+            <div>
+              <h2 class="font-semibold">Baby wellness plan</h2>
+              <p class="text-sm text-slate-500">AXA VitalStart — policy #PETE-2025-004</p>
+            </div>
+            <span class="text-xs px-2 py-1 rounded-full bg-amber-100 text-amber-700">Renew by 30 Dec</span>
+          </div>
+          <div class="text-sm text-slate-600">Covers routine vaccines and paediatric visits up to THB 25,000 per year.</div>
+          <div class="flex gap-2">
+            <button class="insurance-action rounded-xl bg-violet-600 text-white px-3 py-2 text-sm" data-action="reminder" data-title="AXA VitalStart renewal" data-when="2025-12-28T09:30:00+07:00">Add renewal reminder</button>
+            <button class="insurance-action rounded-xl border px-3 py-2 text-sm" data-action="contact" data-email="advisor@axa.co.th" data-subject="AXA VitalStart Renewal">Contact advisor</button>
+          </div>
+        </article>
+
+        <article class="border rounded-2xl p-4 flex flex-col gap-2">
+          <div class="flex items-center justify-between">
+            <div>
+              <h2 class="font-semibold">Caregiver accident cover</h2>
+              <p class="text-sm text-slate-500">MSIG FamilyCare — policy #DAD-2024-552</p>
+            </div>
+            <span class="text-xs px-2 py-1 rounded-full bg-sky-100 text-sky-700">Active</span>
+          </div>
+          <div class="text-sm text-slate-600">Optional coverage for Dad while assisting with childcare duties at home.</div>
+          <div class="flex gap-2">
+            <button class="insurance-action rounded-xl border px-3 py-2 text-sm" data-action="card" data-title="Caregiver accident cover" data-file="caregiver-card.txt">Download digital card</button>
+            <button class="insurance-action rounded-xl border px-3 py-2 text-sm" data-action="notes" data-title="Caregiver accident cover note">Add note</button>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-white border-t">
+    <div class="max-w-4xl mx-auto px-4 py-3 text-xs text-slate-500 flex justify-between">
+      <span>MoMent — insurance center</span>
+      <a href="index.html" class="text-violet-600">Back to dashboard</a>
+    </div>
+  </footer>
+
+  <svg aria-hidden="true" class="hidden">
+    <symbol id="heart" viewBox="0 0 24 24"><path d="M12 21s-7-5-7-10a4 4 0 0 1 7-2.65A4 4 0 0 1 19 11c0 5-7 10-7 10z"/></symbol>
+    <symbol id="shield" viewBox="0 0 24 24"><path d="M12 2 4 5v6c0 5.55 3.84 10.74 8 12 4.16-1.26 8-6.45 8-12V5z" /></symbol>
+  </svg>
+
+  <div id="toast" class="fixed bottom-4 right-4 z-50 hidden rounded-xl bg-slate-900 text-white px-4 py-2 text-sm shadow-lg"></div>
+  <script type="module" src="assets/js/insurance.js"></script>
+</body>
+</html>
