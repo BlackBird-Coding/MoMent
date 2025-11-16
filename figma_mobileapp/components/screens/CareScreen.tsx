@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { TodayCard } from '../TodayCard';
 import { TrackerTile } from '../TrackerTile';
 import { Calendar, Upload, FileText, ChevronDown, Clock, Activity } from 'lucide-react';
 import { toast } from 'sonner';
 import { Logo } from '../Logo';
 import { TaskDetailModal } from '../modals/TaskDetailModal';
+import { uploadFile, type UploadProgress } from '../../services/uploadService';
 
 export function CareScreen() {
   const [tasks, setTasks] = useState([
@@ -18,17 +19,91 @@ export function CareScreen() {
     { id: '8', text: 'Sterilize bottles and pacifiers', completed: true },
   ]);
   const [selectedTask, setSelectedTask] = useState<any>(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const completedTasks = tasks.filter((t) => t.completed).length;
   const progress = (completedTasks / tasks.length) * 100;
 
   const toggleTask = (taskId: string) => {
-    setTasks(tasks.map(t => 
+    setTasks(tasks.map(t =>
       t.id === taskId ? { ...t, completed: !t.completed } : t
     ));
     toast.success('Task updated', {
       description: 'Great job staying on track! 🎉',
     });
+  };
+
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (!files || files.length === 0) return;
+
+    const file = files[0];
+
+    // Validate file size (10MB max)
+    const maxSize = 10 * 1024 * 1024; // 10MB
+    if (file.size > maxSize) {
+      toast.error('File too large', {
+        description: 'Please select a file smaller than 10MB',
+      });
+      return;
+    }
+
+    // Validate file type
+    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp', 'application/pdf'];
+    if (!allowedTypes.includes(file.type)) {
+      toast.error('Invalid file type', {
+        description: 'Please upload an image (JPG, PNG, GIF, WebP) or PDF',
+      });
+      return;
+    }
+
+    setIsUploading(true);
+
+    try {
+      // Show loading toast with progress
+      const loadingToast = toast.loading('Uploading medical record...', {
+        description: 'Preparing upload (0%)',
+      });
+
+      const result = await uploadFile(
+        file,
+        'medical-records',
+        (progress: UploadProgress) => {
+          // Update toast with progress
+          toast.loading('Uploading medical record...', {
+            description: `Uploading ${progress.percentage}%`,
+            id: loadingToast,
+          });
+        }
+      );
+
+      // Dismiss loading toast
+      toast.dismiss(loadingToast);
+
+      if (result.success && result.data) {
+        toast.success('Upload successful!', {
+          description: 'OCR will automatically extract details',
+        });
+        console.log('File uploaded:', result.data);
+        // Here you can add the uploaded file to your state or perform other actions
+      } else {
+        toast.error('Upload failed', {
+          description: result.error || 'Please try again',
+        });
+      }
+    } catch (error) {
+      console.error('Upload error:', error);
+      toast.error('Upload failed', {
+        description: 'An unexpected error occurred',
+      });
+    } finally {
+      setIsUploading(false);
+      // Reset file input
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+    }
   };
 
   const upcomingAppointments = [
@@ -299,19 +374,26 @@ export function CareScreen() {
             </div>
 
             {/* Upload records */}
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*,.pdf"
+              onChange={handleFileUpload}
+              className="hidden"
+              disabled={isUploading}
+            />
             <button
-              onClick={() => {
-                toast.success('Upload Medical Record', {
-                  description: 'OCR will automatically extract details',
-                });
-              }}
-              className="w-full bg-white border-2 border-dashed border-[#E9ECF2] rounded-2xl p-4 flex items-center justify-center gap-2 text-[#666] hover:border-[#6BBEFF] hover:text-[#6BBEFF] transition-all duration-200 tap-highlight"
+              onClick={() => fileInputRef.current?.click()}
+              disabled={isUploading}
+              className={`w-full bg-white border-2 border-dashed border-[#E9ECF2] rounded-2xl p-4 flex items-center justify-center gap-2 text-[#666] hover:border-[#6BBEFF] hover:text-[#6BBEFF] transition-all duration-200 tap-highlight ${
+                isUploading ? 'opacity-50 cursor-not-allowed' : ''
+              }`}
             >
-              <Upload size={20} />
-              Upload Medical Receipt or Record
+              <Upload size={20} className={isUploading ? 'animate-pulse' : ''} />
+              {isUploading ? 'Uploading...' : 'Upload Medical Receipt or Record'}
             </button>
             <p className="text-xs text-center text-[#666] -mt-1">
-              Supports photos, PDFs • Auto-extracts clinic, date, and costs
+              Supports photos, PDFs • Auto-extracts clinic, date, and costs • Max 10MB
             </p>
           </div>
         </div>
